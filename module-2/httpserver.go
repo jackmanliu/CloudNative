@@ -29,12 +29,12 @@ func rootHandler(rw http.ResponseWriter, r *http.Request) {
 
 	//3. Server 端记录访问日志包括客户端 IP，HTTP 返回码，输出到 server 端的标准输出
 	clientIP := getClientIP(r)
-	log.Printf("Acess successfully. client ip:%s Response code: %d\n", clientIP, 200)
+	log.Printf("Acess successfully. client ip:%s Response code: %d\n", clientIP, http.StatusOK)
 }
 
 // 4. 当访问 localhost/healthz 时，应返回 200
 func healthCheck(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(rw, "server is sound and responsive")
+	fmt.Fprintln(rw, "server is sound and responsive with return code:", 200)
 }
 
 // 获取客户端IP地址
