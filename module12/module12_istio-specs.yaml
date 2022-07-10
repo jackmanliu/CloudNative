@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpserver
+spec:
+  gateways:
+    - httpserver
+  hosts:
+    - simple.http.io
+  http:
+    - match:
+        - uri:
+            prefix: "/http"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: httpsvc.default.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpserver
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - simple.http.io
+      port:
+        name: http-simple
+        number: 80
+        protocol: HTTP
